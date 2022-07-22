@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:33:27 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/15 15:55:13 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/22 16:23:21 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,49 @@ typedef struct s_main	t_main;
 
 typedef struct s_philo
 {
-	int				id;
-	long			start;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				n_must_eat;
-	long			last_eat;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
-	pthread_t		th;
-	t_main			*p_main;
+	int					id;
+	int					n_must_eat;
+	unsigned long long	last_eat;
+	pthread_mutex_t		eat;
+	pthread_mutex_t		*l_fork;
+	pthread_mutex_t		*r_fork;
+	pthread_t			th;
+	t_main				*pm;
 }	t_philo;
 
 typedef struct s_main
 {
-	int				nb_philo;
-	int				died;
-	t_philo			*philos;
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	*print;
+	int					nb_philo;
+	unsigned long long	time_to_die;
+	unsigned long long	time_to_eat;
+	unsigned long long	time_to_sleep;
+	int					died;
+	unsigned long long	start;
+	t_philo				*philos;
+	pthread_mutex_t		*die;
+	pthread_mutex_t		*fork;
+	pthread_mutex_t		*print;
 }	t_main;
 
-int			ft_atoi(char *s);
-int			is_digit(char *s);
-void		tsleep(int usecs);
-long int	get_time(void);
+typedef struct s_help
+{
+	int					i;
+	unsigned long long	last_eat;
+	int					j;
+	int					eat;
+}	t_help;
+
+int					ft_atoi(char *s);
+int					is_digit(char *s);
+void				tsleep(unsigned long long usecs);
+unsigned long long	get_time(void);
+int					death_checker(t_main *p);
+void				init_threads_forks(t_main *p);
+void				routine(t_philo *p);
+void				init_t_main(t_main	*p, int ac, char **av);
+int					check_if_digit(int ac, char **av);
+int					check_arguments(int ac, char **av);
+void				mutex_destroyer(t_main *p);
+int					get_condition_var(t_philo *p, int i);
 
 #endif

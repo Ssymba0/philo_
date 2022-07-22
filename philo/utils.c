@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 00:55:02 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/14 17:52:40 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/22 12:18:44 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	is_digit(char *s)
 	i = 0;
 	while (s[i])
 	{
+		if (s[i] == '-' || s[i] == '+')
+			i++;
 		if (s[i] < '0' || s[i] > '9')
 			return (0);
 		i++;
@@ -42,7 +44,7 @@ int	is_digit(char *s)
 }
 
 //actual time
-long int	get_time(void)
+unsigned long long	get_time(void)
 {
 	struct timeval	tv;
 
@@ -51,11 +53,11 @@ long int	get_time(void)
 }
 
 //sleep function using usleep precisely
-void	tsleep(int usecs)
+void	tsleep(unsigned long long usecs)
 {
-	long int	actual_time;
+	unsigned long long	actual_time;
 
 	actual_time = get_time();
 	while (get_time() - actual_time < usecs)
-		usleep(usecs / 10);
+		usleep(1000);
 }
