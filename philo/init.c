@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 09:14:47 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/22 16:23:09 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/24 16:53:56 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,6 @@ void	init_forks(t_main *p)
 	pthread_mutex_init(p->die, NULL);
 }
 
-void	mutex_destroyer(t_main *p)
-{
-	int		i;
-
-	i = -1;
-	while (++i < p->nb_philo)
-	{
-		pthread_mutex_destroy(&p->philos[i].eat);
-		pthread_mutex_destroy(&p->fork[i]);
-	}
-	pthread_mutex_destroy(p->print);
-	pthread_mutex_destroy(p->die);
-}
-
 void	init_threads_forks(t_main *p)
 {
 	int		i;
@@ -90,8 +76,9 @@ void	init_threads_forks(t_main *p)
 	}
 	i = -1;
 	death_checker(p);
-	while (++i < p->nb_philo)
-		pthread_join(p->philos[i].th, NULL);
+	if (p->nb_philo != 1)
+		while (++i < p->nb_philo)
+			pthread_join(p->philos[i].th, NULL);
 }
 
 int	get_condition_var(t_philo *p, int i)
@@ -111,4 +98,19 @@ int	get_condition_var(t_philo *p, int i)
 		pthread_mutex_unlock(&p->eat);
 	}
 	return (res);
+}
+
+int	check_eat(t_main *s, char *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < s->nb_philo && p[i])
+		i++;
+	if (i == s->nb_philo)
+	{
+		free(p);
+		return (0);
+	}
+	return (1);
 }

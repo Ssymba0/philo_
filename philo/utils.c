@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 00:55:02 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/22 12:18:44 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/24 16:53:50 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,18 @@ void	tsleep(unsigned long long usecs)
 	actual_time = get_time();
 	while (get_time() - actual_time < usecs)
 		usleep(1000);
+}
+
+void	mutex_destroyer(t_main *p)
+{
+	int		i;
+
+	i = -1;
+	while (++i < p->nb_philo)
+	{
+		pthread_mutex_destroy(&p->philos[i].eat);
+		pthread_mutex_destroy(&p->fork[i]);
+	}
+	pthread_mutex_destroy(p->print);
+	pthread_mutex_destroy(p->die);
 }

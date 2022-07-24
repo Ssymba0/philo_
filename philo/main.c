@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 00:55:17 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/22 16:23:05 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/24 16:47:23 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,30 +70,54 @@ int	death_checker(t_main *p)
 {
 	t_help	s;
 
-	s.j = 0;
+	s.ate = (char *)malloc(sizeof(char) * p->nb_philo);
 	while (1)
 	{
 		s.i = -1;
+		usleep(100);
 		while (++s.i < p->nb_philo)
 		{
-			usleep(100);
-			s.eat = 1;
 			pthread_mutex_lock(&p->philos[s.i].eat);
 			s.last_eat = p->philos[s.i].last_eat;
-			if (!p->philos[s.i].n_must_eat)
-			{
-				p->philos[s.i].n_must_eat = -1;
-				s.eat = 0;
-			}
 			if (!time_to_commit_die(p, s.last_eat, s.i))
 				return (0);
+			if (!p->philos[s.i].n_must_eat)
+				s.ate[s.i] = 1;
 			pthread_mutex_unlock(&p->philos[s.i].eat);
-			if (!s.eat)
-				if (++s.j == p->nb_philo)
-					return (0);
+			if (!check_eat(p, s.ate))
+				return (0);
 		}
 	}
 }
+
+// int	death_checker(t_main *p)
+// {
+// 	t_help	s;
+
+// 	s.j = 0;
+// 	while (1)
+// 	{
+// 		s.i = -1;
+// 		while (++s.i < p->nb_philo)
+// 		{
+// 			usleep(100);
+// 			s.eat = 1;
+// 			pthread_mutex_lock(&p->philos[s.i].eat);
+// 			s.last_eat = p->philos[s.i].last_eat;
+// 			if (!p->philos[s.i].n_must_eat)
+// 			{
+// 				p->philos[s.i].n_must_eat = -1;
+// 				s.eat = 0;
+// 			}
+// 			if (!time_to_commit_die(p, s.last_eat, s.i))
+// 				return (0);
+// 			pthread_mutex_unlock(&p->philos[s.i].eat);
+// 			if (!s.eat)
+// 				if (++s.j == p->nb_philo)
+// 					return (0);
+// 		}
+// 	}
+// }
 
 int	main(int ac, char **av)
 {

@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:33:27 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/22 16:23:21 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/24 16:54:13 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_help
 {
 	int					i;
 	unsigned long long	last_eat;
-	int					j;
 	int					eat;
+	char				*ate;
 }	t_help;
 
 int					ft_atoi(char *s);
@@ -68,5 +68,6 @@ int					check_if_digit(int ac, char **av);
 int					check_arguments(int ac, char **av);
 void				mutex_destroyer(t_main *p);
 int					get_condition_var(t_philo *p, int i);
+int					check_eat(t_main *s, char *p);
 
 #endif
