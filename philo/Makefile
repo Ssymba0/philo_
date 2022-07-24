@@ -9,7 +9,7 @@ obj = $(src:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=thread -g
+CFLAGS = -Wall -Werror -Wextra
 
 $(NAME): $(obj)
 	$(CC) $(CFLAGS) $(obj) -o $(NAME)

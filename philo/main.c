@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 00:55:17 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/24 16:47:23 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/24 19:10:00 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ int	death_checker(t_main *p)
 			pthread_mutex_lock(&p->philos[s.i].eat);
 			s.last_eat = p->philos[s.i].last_eat;
 			if (!time_to_commit_die(p, s.last_eat, s.i))
+			{
+				free(s.ate);
 				return (0);
+			}
 			if (!p->philos[s.i].n_must_eat)
 				s.ate[s.i] = 1;
 			pthread_mutex_unlock(&p->philos[s.i].eat);
