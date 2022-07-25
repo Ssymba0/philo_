@@ -6,7 +6,7 @@
 /*   By: isabri <isabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 00:55:17 by isabri            #+#    #+#             */
-/*   Updated: 2022/07/24 19:10:00 by isabri           ###   ########.fr       */
+/*   Updated: 2022/07/25 18:06:51 by isabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,17 @@ int	death_checker(t_main *p)
 	}
 }
 
+int	main(int ac, char **av)
+{
+	t_main	p;
+
+	if (check_if_digit(ac, av) || check_arguments(ac, av))
+		return (0);
+	init_t_main(&p, ac, av);
+	init_threads_forks(&p);
+	return (0);
+}
+
 // int	death_checker(t_main *p)
 // {
 // 	t_help	s;
@@ -121,14 +132,3 @@ int	death_checker(t_main *p)
 // 		}
 // 	}
 // }
-
-int	main(int ac, char **av)
-{
-	t_main	p;
-
-	if (check_if_digit(ac, av) || check_arguments(ac, av))
-		return (0);
-	init_t_main(&p, ac, av);
-	init_threads_forks(&p);
-	return (0);
-}
